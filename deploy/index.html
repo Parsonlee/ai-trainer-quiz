@@ -2452,7 +2452,8 @@
                 score: 0,
                 totalAnswered: 0,
                 startTime: new Date().toISOString(),
-                completed: false
+                completed: false,
+                categoryIndex: {}
             };
         }
 
@@ -2500,14 +2501,24 @@
             },
 
             setCategory(cat) {
-                category = cat;
                 if (!current) this.init();
+                // 保存当前分类的进度索引
+                if (!current.categoryIndex) current.categoryIndex = {};
+                current.categoryIndex[category] = current.currentIndex;
+
+                category = cat;
                 var indices = getFilteredIndices(cat);
                 if (current.mode === 'random') {
                     indices = shuffleOrder(indices);
                 }
                 current.order = indices;
-                current.currentIndex = 0;
+                // 恢复目标分类的进度索引（如果有）
+                var savedIndex = current.categoryIndex[cat];
+                if (savedIndex !== undefined && savedIndex < indices.length) {
+                    current.currentIndex = savedIndex;
+                } else {
+                    current.currentIndex = 0;
+                }
                 Storage.saveProgress(current);
                 if (typeof Sync !== 'undefined' && Sync.saveToCloud) Sync.saveToCloud();
             },
@@ -2681,9 +2692,19 @@
                 }
                 var categoryWrong = categoryAnswered - categoryCorrect;
 
+                // 基于错题本统计当前分类的错题数，与错题本保持一致
+                var wrongList = Storage.getWrongList();
+                var wrongSet = new Set(wrongList);
+                var categoryWrongFromBook = 0;
+                for (var i = 0; i < state.order.length; i++) {
+                    if (wrongSet.has(state.order[i])) {
+                        categoryWrongFromBook++;
+                    }
+                }
+
                 document.querySelector('#statTotal .stat-value').textContent = categoryAnswered + '/' + totalQuestions;
                 document.querySelector('#statCorrect .stat-value').textContent = categoryCorrect;
-                document.querySelector('#statWrong .stat-value').textContent = categoryWrong;
+                document.querySelector('#statWrong .stat-value').textContent = categoryWrongFromBook;
 
                 // Progress bar
                 var pct = totalQuestions > 0 ? (categoryAnswered / totalQuestions * 100) : 0;
