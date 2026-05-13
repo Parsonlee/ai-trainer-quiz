@@ -115,7 +115,7 @@ npx skills add https://github.com/tanis90/pdf-converter-mineru --skill pdf-conve
 
 <div align="center">
 
-![支付宝收款码](assets/zhifubao.jpeg)
+<img src="assets/zhifubao.jpeg" alt="支付宝收款码" width="200" />
 
 **支付宝扫码赞赏**
 
