@@ -108,3 +108,17 @@ npx skills add https://github.com/tanis90/pdf-converter-mineru --skill pdf-conve
 ## 许可证
 
 本项目仅供个人学习使用。
+
+## ☕ Buy Me a Coffee
+
+如果这个项目对你有帮助，欢迎请我喝杯咖啡 ☕
+
+<div align="center">
+
+![支付宝收款码](./zhifubao.jpeg)
+
+**支付宝扫码赞赏**
+
+你的支持是我继续开发和维护这个项目的动力！❤️
+
+</div>
