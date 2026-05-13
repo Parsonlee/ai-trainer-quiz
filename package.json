@@ -1,0 +1,9 @@
+{
+  "name": "ai-trainer-quiz",
+  "version": "1.0.0",
+  "description": "人工智能训练师三级刷题系统",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs"
+  }
+}

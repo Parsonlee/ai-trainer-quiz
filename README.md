@@ -42,9 +42,8 @@
 ai-trainer-quiz/
 ├── README.md                              # 项目说明文档
 ├── .gitignore                             # Git 忽略配置
-├── 人工智能训练师三级刷题.html              # 主应用文件（可直接打开使用）
 ├── deploy/
-│   └── index.html                         # 部署版本（与主文件相同）
+│   └── index.html                         # webapp主文件
 ├── 人工智能训练师三级题库-70分.pdf          # 题库 PDF 源文件
 └── 题库md转换/
     ├── 人工智能训练师三级题库_完整.md       # 完整题库
