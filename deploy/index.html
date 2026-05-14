@@ -3119,6 +3119,19 @@
 
     /* ------- Events Module (Task 3) ------- */
     const Events = (function() {
+        function toggleMultiChoice(label) {
+            var question = State.getCurrentQuestion();
+            var qIndex = State.getCurrentQuestionIndex();
+            if (!question || State.isAnswered(qIndex)) return;
+
+            var option = document.querySelector('#choiceOptions .choice-option[data-label="' + label + '"]');
+            if (!option) return;
+
+            option.classList.toggle('selected');
+            var selected = document.querySelectorAll('#choiceOptions .choice-option.selected');
+            document.getElementById('btnSubmit').disabled = selected.length === 0;
+        }
+
         function handleAnswer(userAnswer) {
             var question = State.getCurrentQuestion();
             var qIndex = State.getCurrentQuestionIndex();
@@ -3289,11 +3302,33 @@
                         var q = State.getCurrentQuestion();
                         if (q && q.type === 'judge') {
                             handleAnswer('√');
+                        } else if (q && q.type === 'single') {
+                            handleAnswer('A');
+                        } else if (q && q.type === 'multi') {
+                            toggleMultiChoice('A');
                         }
                     } else if (e.key === '2') {
                         var q2 = State.getCurrentQuestion();
                         if (q2 && q2.type === 'judge') {
                             handleAnswer('×');
+                        } else if (q2 && q2.type === 'single') {
+                            handleAnswer('B');
+                        } else if (q2 && q2.type === 'multi') {
+                            toggleMultiChoice('B');
+                        }
+                    } else if (e.key === '3') {
+                        var q3 = State.getCurrentQuestion();
+                        if (q3 && q3.type === 'single') {
+                            handleAnswer('C');
+                        } else if (q3 && q3.type === 'multi') {
+                            toggleMultiChoice('C');
+                        }
+                    } else if (e.key === '4') {
+                        var q4 = State.getCurrentQuestion();
+                        if (q4 && q4.type === 'single') {
+                            handleAnswer('D');
+                        } else if (q4 && q4.type === 'multi') {
+                            toggleMultiChoice('D');
                         }
                     }
                 });
