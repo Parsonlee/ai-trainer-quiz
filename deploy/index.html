@@ -2512,6 +2512,21 @@
 
                 category = cat;
                 var indices = getFilteredIndices(cat);
+
+                // 切换到错题重做时，清空所有错题的答题状态
+                if (cat === 'wrong') {
+                    for (var i = 0; i < indices.length; i++) {
+                        var qIdx = indices[i];
+                        if (current.answered[qIdx] !== undefined) {
+                            if (current.answered[qIdx] === QUESTIONS[qIdx].answer) {
+                                current.score--;
+                            }
+                            current.totalAnswered--;
+                            delete current.answered[qIdx];
+                        }
+                    }
+                }
+
                 if (current.mode === 'random') {
                     indices = shuffleOrder(indices);
                 }
@@ -3176,18 +3191,20 @@
                 UI.showToast('回答错误', 'error');
             }
 
-            // Check if all filtered questions answered - show completion
-            var state = State.getCurrent();
-            var categoryAnsweredCount = 0;
-            for (var i = 0; i < state.order.length; i++) {
-                if (state.answered[state.order[i]] !== undefined) {
-                    categoryAnsweredCount++;
+            // Check if all filtered questions answered - show completion (skip for wrong redo mode)
+            if (State.getCategory() !== 'wrong') {
+                var state = State.getCurrent();
+                var categoryAnsweredCount = 0;
+                for (var i = 0; i < state.order.length; i++) {
+                    if (state.answered[state.order[i]] !== undefined) {
+                        categoryAnsweredCount++;
+                    }
                 }
-            }
-            if (categoryAnsweredCount >= state.order.length) {
-                setTimeout(function() {
-                    UI.showCompletion();
-                }, 600);
+                if (categoryAnsweredCount >= state.order.length) {
+                    setTimeout(function() {
+                        UI.showCompletion();
+                    }, 600);
+                }
             }
         }
 
